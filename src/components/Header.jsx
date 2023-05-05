@@ -1,6 +1,8 @@
-import React from "react";
+import { VendorContext } from "@/context/VendorContext";
+import React, { useContext } from "react";
 
 const Header = () => {
+  const { userData } = useContext(VendorContext);
   return (
     <div className="flex justify-between px-4 pt-4">
       <img
@@ -11,7 +13,9 @@ const Header = () => {
       <div className="flex justify-center items-center mr-2">
         <span className=" text-gray-800 font-medium ">Hi,</span>
 
-        <span className="ml-1 font-bold text-green-500">Sam</span>
+        <span className="ml-1 font-bold text-green-500">
+          {userData ? userData.name : "xyz"}
+        </span>
       </div>
     </div>
   );
