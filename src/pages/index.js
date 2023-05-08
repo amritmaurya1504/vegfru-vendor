@@ -9,13 +9,7 @@ import { VendorContext } from "@/context/VendorContext";
 
 export default function Home() {
   const { userData } = useContext(VendorContext);
-  const router = useRouter();
 
-  useEffect(() => {
-    if (!userData) {
-      router.push("/auth");
-    }
-  }, []);
   useEffect(() => {
     document.title = "Vendor | Dashboard";
   }, []);

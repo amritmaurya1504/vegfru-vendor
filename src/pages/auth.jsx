@@ -9,11 +9,6 @@ const auth = () => {
   const { userData } = useContext(VendorContext);
   const router = useRouter();
 
-  useEffect(() => {
-    if (userData) {
-      router.push("/");
-    }
-  }, []);
 
   return (
     <section class="text-gray-600 ">
