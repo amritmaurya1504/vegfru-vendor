@@ -5,6 +5,7 @@ import { BsArrowBarRight } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoMdAdd } from "react-icons/io";
 import AddProduct from "@/components/store/AddProduct";
+import ProductList from "@/components/store/ProductList";
 import {
   Drawer,
   DrawerBody,
@@ -83,9 +84,12 @@ const StoreDetails = () => {
               </div>
             </div>
           </section>
+          {/* Product lIST */}
+          <ProductList />
         </div>
       </Sidebar>
-      <Drawer onClose={onClose} isOpen={isOpen} size="md">
+      {/* add Product */}
+      <Drawer onClose={onClose} isOpen={isOpen} size="lg">
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />

@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { VendorContext } from "@/context/VendorContext";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/menubar/Sidebar";
 import {
   Drawer,
   DrawerBody,

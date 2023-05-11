@@ -2,7 +2,7 @@ import TopCards from "../components/dashboard/TopCards";
 import Header from "../components/menubar/Header";
 import BarChart from "../components/dashboard/BarChart";
 import RecentOrders from "../components/dashboard/RecentOrders";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/menubar/Sidebar";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { VendorContext } from "@/context/VendorContext";
