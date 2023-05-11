@@ -10,7 +10,7 @@ import { BiShoppingBag, BiStoreAlt } from "react-icons/bi";
 import { useRouter } from "next/router";
 import { useDisclosure } from "@chakra-ui/react";
 import { Tooltip } from "react-tooltip";
-import UserProfile from "./UserProfile";
+import UserProfile from "../auth/UserProfile";
 
 const Sidebar = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import Login from "../components/Login";
-import Register from "../components/Register";
+import Login from "../components/auth/Login";
+import Register from "../components/auth/Register";
 import { VendorContext } from "@/context/VendorContext";
 import { useRouter } from "next/router";
 
@@ -8,7 +8,6 @@ const auth = () => {
   const [authType, setAuthType] = useState("login");
   const { userData } = useContext(VendorContext);
   const router = useRouter();
-
 
   return (
     <section class="text-gray-600 ">

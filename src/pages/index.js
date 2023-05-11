@@ -1,7 +1,7 @@
-import TopCards from "../components/TopCards";
-import Header from "../components/Header";
-import BarChart from "../components/BarChart";
-import RecentOrders from "../components/RecentOrders";
+import TopCards from "../components/dashboard/TopCards";
+import Header from "../components/menubar/Header";
+import BarChart from "../components/dashboard/BarChart";
+import RecentOrders from "../components/dashboard/RecentOrders";
 import Sidebar from "../components/Sidebar";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
