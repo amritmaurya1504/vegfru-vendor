@@ -38,7 +38,7 @@ const Login = ({ setAuthType }) => {
       setUserData(data.userLogin);
       localStorage.setItem("token", JSON.stringify(data.token));
       setLoader(false);
-      router.push("/");
+      router.push("/dashboard");
     } catch (error) {
       toast.warning(error.response?.data.message);
       setLoader(false);

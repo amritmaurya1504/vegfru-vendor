@@ -22,7 +22,7 @@ const AddStore = dynamic(
 );
 
 const Store = () => {
-  const { userData, setStores } = useContext(VendorContext);
+  const { userData, setLoader, setStores } = useContext(VendorContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleClick = () => {
     onOpen();
@@ -33,6 +33,7 @@ const Store = () => {
 
   // Fetch all your stores
   const fetchStores = async () => {
+    setLoader(true)
     const axiosConfig = {
       headers: {
         "Content-type": "application/json",
@@ -54,6 +55,7 @@ const Store = () => {
         theme: "colored",
       });
     }
+    setLoader(false)
   }
 
   useEffect(() => {

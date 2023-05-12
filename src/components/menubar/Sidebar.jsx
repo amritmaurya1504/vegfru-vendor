@@ -16,9 +16,9 @@ const Sidebar = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const router = useRouter();
-  //   useEffect(() => {
-  //     ReactTooltip.rebuild();
-  //   }, []);
+  const handleLogout = () => {
+    router.push("/")
+  }
   return (
     <>
       <div className="flex">
@@ -31,7 +31,7 @@ const Sidebar = ({ children }) => {
             </Link>
 
             <div className="flex flex-col gap-5 mt-10 justify-start items-center">
-              <Link href="/">
+              <Link href="/dashboard">
                 <div
                   className="bg-gray-100 hover:bg-gray-200  text-gray-500 hover:text-gray-700 rounded-lg  p-1 flex justify-center items-center"
                   data-tooltip-id="dashboard"
@@ -100,7 +100,7 @@ const Sidebar = ({ children }) => {
               </div>
               <Tooltip id="profile" />
             </Link>
-            <Link href="" onClick={() => router.push("/login")}>
+            <Link href="" onClick={handleLogout}>
               <div
                 className="bg-gray-100 hover:bg-gray-200  text-gray-500 hover:text-gray-700 rounded-lg  p-1 flex justify-center items-center mb-5 "
                 data-tooltip-id="logout"

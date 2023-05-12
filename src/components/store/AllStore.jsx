@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import { VendorContext } from "@/context/VendorContext";
+import { HashLoader } from "react-spinners"
+import { useRouter } from "next/router";
 
 const AllStore = () => {
-
-  const { stores } = useContext(VendorContext);
-  console.log(stores);
+  const router = useRouter()
+  const { stores, loader } = useContext(VendorContext);
 
   return (
     <section class="text-gray-600 body-font">
@@ -34,7 +35,7 @@ const AllStore = () => {
                         </p>
                         <small>Landmark : {curr.landmark}</small>
                         <div class="flex items-center flex-wrap mt-3">
-                          <a class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer ">
+                          <Link href={`/store-details/${curr._id}`} class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer ">
                             More
                             <svg
                               class="w-4 h-4 ml-2"
@@ -48,21 +49,13 @@ const AllStore = () => {
                               <path d="M5 12h14"></path>
                               <path d="M12 5l7 7-7 7"></path>
                             </svg>
-                          </a>
+                          </Link>
                           <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                            <svg
-                              class="w-4 h-4 mr-1"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              fill="none"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              viewBox="0 0 24 24"
-                            >
-                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                              <circle cx="12" cy="12" r="3"></circle>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                             </svg>
-                            1.2K
+
+                            {curr.like.length}
                           </span>
                           <span class="text-gray-400 inline-flex items-center leading-none text-sm">
                             <svg
@@ -76,7 +69,7 @@ const AllStore = () => {
                             >
                               <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
                             </svg>
-                            6
+                            {curr.comments.length}
                           </span>
                         </div>
                       </div>
@@ -84,7 +77,7 @@ const AllStore = () => {
                   </div>
                 </>
               )
-            }) : <p>No any store exist!</p>
+            }) :  <p className="flex items-center mx-auto justify-center h-[50vh] text-3xl">No any store exist!</p>
           }
         </div>
       </div>
