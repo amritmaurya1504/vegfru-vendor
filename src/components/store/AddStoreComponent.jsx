@@ -16,10 +16,9 @@ const override = {
 const mapbox_url = `https://api.mapbox.com/styles/v1/${process.env.NEXT_PUBLIC_MAPBOX_USERNAME}/clgjqyhee007o01qt6l1veo00/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.NEXT_PUBLIC_MAPBOX_KEY}`
 
 
-const AddAddress = () => {
-    const { loader, setLoader } = useContext(VendorContext)
+const AddAddress = ({fetchStores}) => {
+    const { loader, setLoader, axiosConfig, imageUrl, uploadImage } = useContext(VendorContext)
     const [position, setPosition] = useState([24.79039723056424, 78.53669117764389]);
-    const [imageUrl, setImageUrl] = useState();
     const [location, setLocation] = useState(null);
     const [currentPlace, setCurrentPlace] = useState();
     const [formData, setFormData] = useState({
@@ -80,52 +79,6 @@ const AddAddress = () => {
 
     // Upload Image code
 
-    const uploadImage = (image) => {
-        console.log(image)
-        const filename = image.name
-        const ext = filename.split('.').pop();
-        if (ext === 'jpg' || ext === 'png' || ext === 'jpeg') {
-            const data = new FormData();
-            data.append("file", image);
-            data.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_PRESET);
-            data.append("cloud_name", process.env.NEXT_PUBLIC_CLOUDINARY_USERNAME);
-            fetch(`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}`, {
-                method: "post",
-                body: data,
-            })
-                .then((res) => res.json())
-                .then((data) => {
-                    // console.log(loader)
-                    console.log(data.url.toString());
-                    setImageUrl(data.url.toString())
-
-                })
-                .catch((err) => {
-                    toast.error(err, {
-                        position: "top-center",
-                        autoClose: 2000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: 'colored'
-                    });
-                })
-        } else {
-            toast.warning("Please select a valid image [Either JPEG or PNG]", {
-                position: "top-center",
-                autoClose: 2000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: 'colored'
-            })
-        }
-    }
-
     const handleInputChange = (event) => {
         const { name, value } = event.target;
 
@@ -139,8 +92,45 @@ const AddAddress = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData)
-        console.log(location)
+        setLoader(true);
+        const axiosConfig = {
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": "Bearer " + JSON.parse(localStorage.getItem("token"))
+            },
+        };
+        try {
+            const storeData = { storeName: formData.storeName, storeType: formData.storeType, landmark: formData.landmark, storeAddress: formData.storeAddress + " " + currentPlace, storeImage: imageUrl, long: location[1], lat: location[0] }
+
+            console.log(storeData);
+
+            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/vendor/add-store`, storeData, axiosConfig)
+            toast.success(data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+            fetchStores()
+
+        } catch (error) {
+            toast.error(error.response.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        }
+
+        setLoader(false);
 
     }
 
@@ -195,7 +185,7 @@ const AddAddress = () => {
                                     name="storeName" value={formData.name} onChange={handleInputChange}
                                     id="text"
                                     type="text"
-                                    placeholder='eg. Home/Office'
+                                    placeholder='eg. Ramesh Vendor'
                                     className="block w-full appearance-none outline-none px-4 py-4 placeholder-gray-300 placeholder:text-sm shadow-sm sm:text-sm"
                                 />
                             </div>
@@ -207,7 +197,7 @@ const AddAddress = () => {
                                     id="text"
                                     name="storeAddress" value={formData.storeAddress} onChange={handleInputChange}
                                     type="text"
-                                    placeholder='eg. 2nd floor, house no, kolkata'
+                                    placeholder='eg. Near XYZ Building'
                                     className="block w-full appearance-none outline-none px-4 py-4 placeholder-gray-300 shadow-sm sm:text-sm"
                                 />
                             </div>
@@ -235,11 +225,7 @@ const AddAddress = () => {
                             </div>
                             <div className="border-r border-l border-t border-b">
                                 <p htmlFor="email" className="px-4 pt-4 block text-xs font-medium text-gray-400">
-                                    {loader ? (
-                                        <BeatLoader color="#22c55e" />
-                                    ) : (
-                                        "Upload store image"
-                                    )}
+                                    Upload store image
                                 </p>
                                 <input
                                     onChange={(e) => uploadImage(e.target.files[0])}
@@ -257,7 +243,11 @@ const AddAddress = () => {
                                 type="submit"
                                 className="mt-4 flex w-full justify-center border-transparent bg-green-500 py-4 px-4 text-sm font-medium text-white shadow-sm "
                             >
-                                Add Store
+                                {loader ? (
+                                    <BeatLoader color="white" />
+                                ) : (
+                                    "Add Store"
+                                )}
                             </button>
                             <p className='text-xs mt-2 text-[#686b78] font-normal'>By clicking on Add Store , you can add <span className='text-black'>your store.</span></p>
                         </div>

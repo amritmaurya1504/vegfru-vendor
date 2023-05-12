@@ -11,6 +11,8 @@ import {
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import AllStore from "@/components/store/AllStore";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddStore = dynamic(
   () => import("../components/store/AddStoreComponent"),
@@ -20,7 +22,7 @@ const AddStore = dynamic(
 );
 
 const Store = () => {
-  const { userData } = useContext(VendorContext);
+  const { userData, setStores } = useContext(VendorContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleClick = () => {
     onOpen();
@@ -28,6 +30,37 @@ const Store = () => {
   useEffect(() => {
     document.title = "Vendor | Store";
   }, []);
+
+  // Fetch all your stores
+  const fetchStores = async () => {
+    const axiosConfig = {
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + JSON.parse(localStorage.getItem("token"))
+      },
+    };
+    try {
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/vendor/get-allstore`, axiosConfig)
+      setStores(data.stores)
+    } catch (error) {
+      toast.error(error.response?.data.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  }
+
+  useEffect(() => {
+    fetchStores()
+  }, [])
+
+
   return (
     <>
       <Sidebar>
@@ -62,7 +95,7 @@ const Store = () => {
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerBody>
-            <AddStore />
+            <AddStore fetchStores={fetchStores} />
           </DrawerBody>
         </DrawerContent>
       </Drawer>
