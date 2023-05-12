@@ -2,11 +2,11 @@ import React, { useContext, useEffect } from "react";
 import { BiShoppingBag } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { data } from "../data/data";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/menubar/Sidebar";
 import { VendorContext } from "@/context/VendorContext";
 
 const orders = () => {
-  const { userData } = useContext(VendorContext)
+  const { userData } = useContext(VendorContext);
   useEffect(() => {
     document.title = "Vendor | orders";
   }, []);
@@ -18,7 +18,9 @@ const orders = () => {
           <div className="flex justify-center items-center mr-2">
             <span className=" text-gray-800 font-medium ">Hi,</span>
 
-            <span className="ml-1 font-bold text-green-500">{userData ? userData.name : "xyz"}</span>
+            <span className="ml-1 font-bold text-green-500">
+              {userData ? userData.name : "xyz"}
+            </span>
           </div>
         </div>
         <div className="p-4">
