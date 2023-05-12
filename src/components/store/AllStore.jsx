@@ -33,7 +33,7 @@ const AllStore = () => {
                           {curr.storeAddress}
                         </p>
                         <small>Landmark : {curr.landmark}</small>
-                        <div class="flex items-center flex-wrap mt-3 mt-3">
+                        <div class="flex items-center flex-wrap mt-3">
                           <a class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer ">
                             More
                             <svg
