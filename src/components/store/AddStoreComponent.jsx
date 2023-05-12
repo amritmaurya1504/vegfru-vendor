@@ -2,21 +2,32 @@ import React, { useContext, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet"
 import "leaflet/dist/leaflet.css"
+import { Icon } from 'leaflet';
 import axios from "axios"
+import { VendorContext } from '@/context/VendorContext';
+import { BeatLoader } from "react-spinners";
 
 const override = {
     display: "block",
     marginBottom: "12px",
+    marginLeft: "60px",
 };
 
 const mapbox_url = `https://api.mapbox.com/styles/v1/${process.env.NEXT_PUBLIC_MAPBOX_USERNAME}/clgjqyhee007o01qt6l1veo00/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.NEXT_PUBLIC_MAPBOX_KEY}`
 
 
 const AddAddress = () => {
+    const { loader, setLoader } = useContext(VendorContext)
     const [position, setPosition] = useState([24.79039723056424, 78.53669117764389]);
+    const [imageUrl, setImageUrl] = useState();
     const [location, setLocation] = useState(null);
-    const [address, setAddress] = useState();
     const [currentPlace, setCurrentPlace] = useState();
+    const [formData, setFormData] = useState({
+        storeName: '',
+        storeAddress: '',
+        landmark: '',
+        storeType: ''
+    });
 
 
     const getPlace = async (location) => {
@@ -24,7 +35,7 @@ const AddAddress = () => {
             const res = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${location[1]},${location[0]}.json?access_token=${process.env.NEXT_PUBLIC_MAPBOX_KEY}`);
             const address = `${res.data.features[0].place_name}`
             setCurrentPlace(address)
-            console.log(currentPlace)
+            // console.log(currentPlace)
             // console.log(res);
         } catch (error) {
             console.log(error)
@@ -47,13 +58,17 @@ const AddAddress = () => {
     // fly to current location in map
 
     const MyLocation = () => {
+        const customIcon = new Icon({
+            iconUrl: "https://res.cloudinary.com/amritrajmaurya/image/upload/v1681851333/location-pin_kd0ujy.png",
+            iconSize: [48, 48]
+        })
         const map = useMap();
         if (location) {
             map.flyTo(location, 15);
             getPlace(location)
             return (
                 <>
-                    <Marker position={location} >
+                    <Marker position={location} icon={customIcon} >
                         <Popup>You are here</Popup>
                     </Marker>
                 </>
@@ -62,12 +77,75 @@ const AddAddress = () => {
         return null;
     }
 
+
+    // Upload Image code
+
+    const uploadImage = (image) => {
+        console.log(image)
+        const filename = image.name
+        const ext = filename.split('.').pop();
+        if (ext === 'jpg' || ext === 'png' || ext === 'jpeg') {
+            const data = new FormData();
+            data.append("file", image);
+            data.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_PRESET);
+            data.append("cloud_name", process.env.NEXT_PUBLIC_CLOUDINARY_USERNAME);
+            fetch(`${process.env.NEXT_PUBLIC_CLOUDINARY_URL}`, {
+                method: "post",
+                body: data,
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    // console.log(loader)
+                    console.log(data.url.toString());
+                    setImageUrl(data.url.toString())
+
+                })
+                .catch((err) => {
+                    toast.error(err, {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: 'colored'
+                    });
+                })
+        } else {
+            toast.warning("Please select a valid image [Either JPEG or PNG]", {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: 'colored'
+            })
+        }
+    }
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
     // submit form
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(formData)
+        console.log(location)
 
     }
+
+
+
 
 
     return (
@@ -114,8 +192,8 @@ const AddAddress = () => {
                                     Store Name
                                 </p>
                                 <input
+                                    name="storeName" value={formData.name} onChange={handleInputChange}
                                     id="text"
-                                    name="text"
                                     type="text"
                                     placeholder='eg. Home/Office'
                                     className="block w-full appearance-none outline-none px-4 py-4 placeholder-gray-300 placeholder:text-sm shadow-sm sm:text-sm"
@@ -127,7 +205,7 @@ const AddAddress = () => {
                                 </p>
                                 <input
                                     id="text"
-                                    name="text"
+                                    name="storeAddress" value={formData.storeAddress} onChange={handleInputChange}
                                     type="text"
                                     placeholder='eg. 2nd floor, house no, kolkata'
                                     className="block w-full appearance-none outline-none px-4 py-4 placeholder-gray-300 shadow-sm sm:text-sm"
@@ -139,7 +217,7 @@ const AddAddress = () => {
                                 </p>
                                 <input
                                     id="text"
-                                    name="text"
+                                    name="landmark" value={formData.landmark} onChange={handleInputChange}
                                     type="text"
                                     className="block w-full appearance-none outline-none px-4 py-4 placeholder-gray-300 shadow-sm sm:text-sm"
                                 />
@@ -148,18 +226,23 @@ const AddAddress = () => {
                                 <p htmlFor="email" className="px-4 pt-4 block text-xs font-medium text-gray-400">
                                     Select store type
                                 </p>
-                                <select id="fruits" name="fruits" class="outline-none mt-2 block w-full py-2 px-4 rounde text-gray-400">
+                                <select id="fruits" name="storeType" value={formData.storeType} onChange={handleInputChange} class="outline-none mt-2 block w-full py-2 px-4 rounde text-gray-400">
                                     <option value="" >--Please choose an option--</option>
-                                    <option value="apple" class="py-2 px-4">Vegetable Only</option>
-                                    <option value="banana" class="py-2 px-4">Fruits Only</option>
-                                    <option value="orange" class="py-2 px-4">Vegetable & Fruits</option>
+                                    <option value="Vegetable" class="py-2 px-4">Vegetable Only</option>
+                                    <option value="Fruits" class="py-2 px-4">Fruits Only</option>
+                                    <option value="both" class="py-2 px-4">Vegetable & Fruits</option>
                                 </select>
                             </div>
                             <div className="border-r border-l border-t border-b">
                                 <p htmlFor="email" className="px-4 pt-4 block text-xs font-medium text-gray-400">
-                                    Upload Store image
+                                    {loader ? (
+                                        <BeatLoader color="#22c55e" />
+                                    ) : (
+                                        "Upload store image"
+                                    )}
                                 </p>
                                 <input
+                                    onChange={(e) => uploadImage(e.target.files[0])}
                                     id="file"
                                     name="file"
                                     type="file"
