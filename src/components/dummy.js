@@ -1,38 +1,46 @@
 export const people = [
-    {
-      name: 'Lindsay Walton',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      email: 'lindsay.walton@example.com',
-      role: 'Member',
-      image:
-        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-      name: 'Lindsay Walton',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      email: 'lindsay.walton@example.com',
-      role: 'Member',
-      image:
-        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-      name: 'Lindsay Walton',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      email: 'lindsay.walton@example.com',
-      role: 'Member',
-      image:
-        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-    {
-      name: 'Lindsay Walton',
-      title: 'Front-end Developer',
-      department: 'Optimization',
-      email: 'lindsay.walton@example.com',
-      role: 'Member',
-      image:
-        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    },
-  ]
+  {
+    name: "Onion",
+    title: "Front-end Developer",
+    department: "Optimization",
+    email: "lindsay.walton@example.com",
+    role: "Member",
+    price: 22,
+    unit: "kg",
+    image:
+      "https://res.cloudinary.com/amritrajmaurya/image/upload/v1683186003/veg3_cwi5wv.webp",
+  },
+  {
+    name: "Orange",
+    title: "Front-end Developer",
+    department: "Optimization",
+    email: "lindsay.walton@example.com",
+    role: "Member",
+    price: 22,
+    unit: "kg",
+    image:
+      "https://res.cloudinary.com/amritrajmaurya/image/upload/v1683186003/veg7_y9j6oz.webp",
+  },
+  {
+    name: "Potato",
+    title: "Front-end Developer",
+    department: "Optimization",
+    email: "lindsay.walton@example.com",
+    role: "Member",
+    price: 22,
+    unit: "kg",
+    image:
+      "https://res.cloudinary.com/amritrajmaurya/image/upload/v1683186002/veg2_bcuwnq.jpg",
+  },
+  {
+    name: "French beans",
+    title: "Front-end Developer",
+    department: "Optimization",
+    email: "lindsay.walton@example.com",
+    role: "Member",
+    price: 22,
+    unit: "kg",
+    image:
+      "https://res.cloudinary.com/amritrajmaurya/image/upload/v1683186002/veg4_ge1ibm.webp",
+  },
+];

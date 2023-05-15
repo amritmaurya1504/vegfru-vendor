@@ -1,62 +1,88 @@
 import React, { useState } from "react";
+import ProductDetails from "./ProductDetails";
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
   Badge,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  Button,
 } from "@chakra-ui/react";
+import { BiDotsVerticalRounded } from "react-icons/bi";
 import { Tooltip } from "react-tooltip";
 import { people } from "../dummy";
 
 const ProductList = () => {
-  const [status, setStatus] = useState(true);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleClick = () => {
+    onOpen();
+  };
 
   return (
     <>
       <div className="px-4 sm:px-6 lg:px-24">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-xl font-semibold text-gray-900" >Users</h1>
-            <p className="mt-2 text-sm text-gray-700">
-              A list of all the users in your account including their name, title, email and role.
+            <h3 className="text-3xl font-semibold mb-2">
+              Product <span className="text-green-500"> List</span>
+            </h3>
+            <div class="border-b-2 border-black mt-4 w-8"></div>
+            <p className="mt-2 text-base text-gray-700">
+              List of all products of the shop are displayed in the table below.
             </p>
           </div>
           <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-md border border-transparent bg-[#33c94a] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-            >
-              Add Product
-            </button>
+            <Badge variant="outline" colorScheme="green" fontSize="1.0em">
+              Total Products: {people.length}
+            </Badge>
           </div>
         </div>
         <div className="mt-8 flex flex-col">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
               <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
+                <table className="min-w-full divide-y divide-gray-300 overflow-none z-0">
                   <thead className="bg-green-100">
                     <tr>
-                      <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                      <th
+                        scope="col"
+                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                      >
                         SNo
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        Product Name
+                      <th
+                        scope="col"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Product
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+
+                      <th
+                        scope="col"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
                         Unit
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        Status
+                      <th
+                        scope="col"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Price
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        Party Logo
+                      <th
+                        scope="col"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Status
                       </th>
                     </tr>
                   </thead>
@@ -66,40 +92,87 @@ const ProductList = () => {
                         <>
                           <tr key={i}>
                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-                              <div className="flex items-center">
+                              <span>1</span>
+                            </td>
+                            <td className="whitespace-nowrap py-4 pl-3 text-sm sm:pl-6">
+                              <div className="flex items-center gap-5">
                                 <div className="h-10 w-10 flex-shrink-0">
-                                  <img className="h-10 w-10 rounded-full" src={`${item.image}`} alt="" />
+                                  <img
+                                    className="h-10 w-10 rounded-full"
+                                    src={`${item.image}`}
+                                    alt={`${item.name}`}
+                                  />
                                 </div>
-                                <div className="ml-4">
-                                  <div className="font-medium text-gray-900">{item.name}</div>
-                                  {/* <div className="text-gray-500">{person.email}</div> */}
+                                <div className="font-medium text-gray-900">
+                                  {item.name}
                                 </div>
                               </div>
                             </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              <div className="text-gray-900">{item.title}</div>
 
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                              <div className="text-gray-500 font-medium">
+                                {item.unit}
+                              </div>
                             </td>
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              <div className="text-gray-500">{item.role}</div>
-                            </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                                Active
-                              </span>
+                              {" "}
+                              <div className="text-gray-500  font-medium">
+                                {item.price}
+                              </div>
                             </td>
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                              <div className="h-10 w-10 flex-shrink-0">
-                                <img className="h-10 w-10 rounded-full" src={`${item.image}`} alt="" />
+                              <div className="flex justify-between">
+                                <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                                  Active
+                                </span>
+                                <Menu closeOnBlur="true">
+                                  <MenuButton
+                                    data-tooltip-id="options"
+                                    data-tooltip-content="More Options"
+                                    data-tooltip-place="top"
+                                  >
+                                    <BiDotsVerticalRounded />
+                                    <Tooltip id="options" />
+                                  </MenuButton>
+                                  <MenuList>
+                                    <MenuItem
+                                      className="hover:bg-green-100"
+                                      onClick={() => handleClick()}
+                                    >
+                                      Show Product Details
+                                    </MenuItem>
+                                    <MenuItem className="hover:bg-green-100">
+                                      Change Status
+                                    </MenuItem>
+                                    <MenuItem className="hover:bg-green-100">
+                                      Delete
+                                    </MenuItem>
+                                  </MenuList>
+                                </Menu>
                               </div>
                             </td>
                           </tr>
                         </>
-                      )
-                    }
-                    )}
+                      );
+                    })}
                   </tbody>
                 </table>
+
+                <Drawer
+                  onClose={onClose}
+                  isOpen={isOpen}
+                  size="lg"
+                  placement="left"
+                >
+                  <DrawerOverlay />
+                  <DrawerContent>
+                    <DrawerCloseButton />
+
+                    <DrawerBody>
+                      <ProductDetails />
+                    </DrawerBody>
+                  </DrawerContent>
+                </Drawer>
               </div>
             </div>
           </div>

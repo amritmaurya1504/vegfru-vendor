@@ -33,7 +33,7 @@ const Register = ({ setAuthType }) => {
       };
       setLoader(true);
       const { data } = await axios.post(
-        `https://vegfru-api.onrender.com/api/vendor/register`,
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/vendor/register`,
         registerData,
         config
       );
