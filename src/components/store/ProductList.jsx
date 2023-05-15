@@ -88,6 +88,11 @@ const ProductList = () => {
                                 Active
                               </span>
                             </td>
+                            <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                              <div className="h-10 w-10 flex-shrink-0">
+                                <img className="h-10 w-10 rounded-full" src={`${item.image}`} alt="" />
+                              </div>
+                            </td>
                           </tr>
                         </>
                       )
