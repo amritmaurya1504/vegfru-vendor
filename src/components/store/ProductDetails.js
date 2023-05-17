@@ -1,6 +1,9 @@
 import React from "react";
 
 const ProductDetails = () => {
+  const handleEditProduct = (e) => {
+    e.preventDefault();
+  };
   return (
     <div>
       <div className="flex flex-col space-y-8 md:pl-10 md:pr-24">
@@ -16,25 +19,23 @@ const ProductDetails = () => {
           <img
             src="https://res.cloudinary.com/amritrajmaurya/image/upload/v1683186003/veg3_cwi5wv.webp"
             alt="onion"
-            className="md:h-[240px] md:w-[280px] h-[160px] w-[200px]"
+            className="sm:h-[160px] md:w-[200px]  h-[80px] w-[100px]"
           />
-          <div className="flex justify-between items-center">
-            <span className="text-gray-900 font-semibold tracking-tight sm:text-3xl text-xl">
-              {" "}
-              Onion
-            </span>
-          </div>
-          <div className="flex gap-3 items-center mt-2">
-            <span className="text-gray-900 font-medium tracking-tight sm:text-xl text-lg">
-              {" "}
-              Category
-            </span>
-            <p className="text-gray-500 sm:text-xl text-lg"> Vegetable </p>
-          </div>
+
+          <h1 class="title-font sm:text-3xl text-2xl font-medium text-gray-900">
+            Onion
+          </h1>
+
+          <span class="tracking-widest sm:text-base text-sm title-font font-medium mb-4  text-gray-400">
+            VEGETABLE
+          </span>
+          <span className="w-[80px] text-center rounded-full bg-green-100 px-2 sm:text-sm text-xs font-semibold leading-5 text-green-800">
+            Available
+          </span>
         </div>
         {/* Form */}
         <div className="">
-          <form action="#" method="POST" className="space-y-6">
+          <form method="POST" className="space-y-6">
             <div className="">
               <div className="border-r border-l border-t border-b">
                 <p
@@ -47,6 +48,7 @@ const ProductDetails = () => {
                   id="text"
                   name="text"
                   type="text"
+                  value="20"
                   className="block w-full appearance-none outline-none px-4 py-4 placeholder-gray-300 shadow-sm sm:text-sm"
                 />
               </div>
@@ -64,7 +66,7 @@ const ProductDetails = () => {
                   class="outline-none mt-2 block w-full py-2 px-4 rounde text-gray-400"
                 >
                   <option value="">--Please choose an option--</option>
-                  <option value="kgram" class="py-2 px-4">
+                  <option value="kgram" class="py-2 px-4" selected>
                     kg
                   </option>
                   <option value="gram" class="py-2 px-4">
@@ -78,6 +80,7 @@ const ProductDetails = () => {
               <button
                 type="submit"
                 className="mt-4 flex w-full justify-center border-transparent bg-green-500 py-4 px-4 text-sm font-medium text-white shadow-sm "
+                onClick={handleEditProduct}
               >
                 Edit Product
               </button>

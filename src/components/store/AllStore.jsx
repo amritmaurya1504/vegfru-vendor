@@ -1,19 +1,19 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import { VendorContext } from "@/context/VendorContext";
-import { HashLoader } from "react-spinners"
+import { HashLoader } from "react-spinners";
 import { useRouter } from "next/router";
 
 const AllStore = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { stores, loader } = useContext(VendorContext);
 
   return (
     <section class="text-gray-600 body-font">
       <div class="container px-5 py-12 mx-auto">
         <div class="flex flex-wrap -m-4">
-          {
-            stores ? stores.map((curr) => {
+          {stores ? (
+            stores.map((curr) => {
               return (
                 <>
                   <div key={curr._id} class="p-4 md:w-1/3">
@@ -25,17 +25,20 @@ const AllStore = () => {
                       />
                       <div class="p-6">
                         <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
-                          {curr.storeType === "both" ? "VEGETABLE & FRUIT" : curr.storeType.toUpperCase()}
+                          {curr.storeType === "both"
+                            ? "VEGETABLE & FRUIT"
+                            : curr.storeType.toUpperCase()}
                         </h2>
                         <h1 class="title-font text-lg font-medium text-gray-900 mb-3">
                           {curr.storeName}
                         </h1>
-                        <p class="leading-relaxed">
-                          {curr.storeAddress}
-                        </p>
+                        <p class="leading-relaxed">{curr.storeAddress}</p>
                         <small>Landmark : {curr.landmark}</small>
                         <div class="flex items-center flex-wrap mt-3">
-                          <Link href={`/store-details/${curr._id}`} class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer ">
+                          <Link
+                            href={`/store-details/${curr._id}`}
+                            class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer "
+                          >
                             More
                             <svg
                               class="w-4 h-4 ml-2"
@@ -51,8 +54,19 @@ const AllStore = () => {
                             </svg>
                           </Link>
                           <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="w-4 h-4 mr-1"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                              />
                             </svg>
 
                             {curr.like.length}
@@ -76,9 +90,13 @@ const AllStore = () => {
                     </div>
                   </div>
                 </>
-              )
-            }) :  <p className="flex items-center mx-auto justify-center h-[50vh] text-3xl">No any store exist!</p>
-          }
+              );
+            })
+          ) : (
+            <p className="flex items-center mx-auto justify-center h-[50vh] text-3xl">
+              Add your Stores here!
+            </p>
+          )}
         </div>
       </div>
     </section>
