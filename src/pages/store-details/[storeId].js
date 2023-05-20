@@ -4,6 +4,7 @@ import React, { useContext, useEffect } from "react";
 import { BsArrowBarRight } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoMdAdd } from "react-icons/io";
+import { BiEdit } from "react-icons/bi";
 import AddProduct from "@/components/store/AddProduct";
 import ProductList from "@/components/store/ProductList";
 import {
@@ -22,6 +23,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { BeatLoader, HashLoader } from "react-spinners";
+import { Tooltip } from "react-tooltip";
 
 const StoreDetails = () => {
   const { userData, setLoader, loader } = useContext(VendorContext);
@@ -124,15 +126,37 @@ const StoreDetails = () => {
                   </span>
 
                   <div className="flex flex-col">
-                    <p class="mb-4 leading-relaxed">
-                      {singleStore.storeAddress}
-                    </p>
-                    <p class="mb-8 leading-relaxed">
+                    <p class="leading-relaxed">{singleStore.storeAddress}</p>
+                    <p class=" leading-relaxed">
                       <span className="leading-relaxed font-semibold">
                         {" "}
                         Landmark :{" "}
                       </span>
                       {singleStore.landmark}
+                    </p>
+                    <p class="mb-8 leading-relaxed">
+                      <div className="flex gap-1 items-center">
+                        <span className="leading-relaxed font-semibold">
+                          Status :{" "}
+                        </span>
+                        <span
+                          className={`font-semibold ${
+                            singleStore.status === "Active"
+                              ? "text-green-500"
+                              : "text-orange-500"
+                          }`}
+                        >
+                          {singleStore.status}
+                        </span>
+                        <span
+                          data-tooltip-id="status"
+                          data-tooltip-content="Change Status"
+                          data-tooltip-place="top"
+                        >
+                          <BiEdit className="ml-2 text-indigo-500 cursor-pointer" />
+                          <Tooltip id="status" />
+                        </span>
+                      </div>
                     </p>
                   </div>
 

@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import { VendorContext } from "@/context/VendorContext";
+import React, { useContext, useState } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
 
 const AddProduct = () => {
+  const { imageUrl, uploadImage } = useContext(VendorContext);
+  const router = useRouter();
+  const storeId = router.query.storeId;
   // collect the data from the form
   const [formdata, setFormdata] = useState({
     productName: "",
@@ -20,9 +26,33 @@ const AddProduct = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formdata);
+    const axiosConfig = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
+      },
+    };
+    try {
+      const productData = {
+        productName: formdata.productName,
+        productCategory: formdata.productCategory,
+        productPrice: formdata.productPrice,
+        productUnit: formdata.productUnit,
+        productImage: imageUrl,
+      };
+
+      const { data } = await axios.post(
+        `https://api-vegfru.online/api/vendor/add-product/${storeId}`,
+        productData,
+        axiosConfig
+      );
+      console.log(data);
+      console.log(storeId);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div>
@@ -121,6 +151,7 @@ const AddProduct = () => {
                   Upload product image
                 </p>
                 <input
+                  onChange={(e) => uploadImage(e.target.files[0])}
                   id="file"
                   name="file"
                   type="file"

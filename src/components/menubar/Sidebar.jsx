@@ -17,14 +17,14 @@ const Sidebar = ({ children }) => {
   const btnRef = React.useRef();
   const router = useRouter();
   const handleLogout = () => {
-    router.push("/")
-  }
+    router.push("/");
+  };
   return (
     <>
       <div className="flex">
         <div className="fixed w-20 h-screen p-4 bg-white boreder-r-[1px] flex flex-col justify-between">
           <div className="flex flex-col justify-start items-center gap-2">
-            <Link href="/">
+            <Link href="/dashboard">
               <div className="bg-green-500 hover:bg-green-400 rounded-lg text-white p-1 flex justify-center items-center">
                 <GiFruitBowl size={24} />
               </div>
