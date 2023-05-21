@@ -23,7 +23,12 @@ import { people } from "../dummy";
 const ProductList = ({ productArray }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   console.log(productArray);
-  const handleClick = () => {
+
+  // state for handling product details
+
+  const [singleProduct, setSingleProduct] = useState();
+  const handleClick = (item) => {
+    setSingleProduct(item);
     onOpen();
   };
 
@@ -158,7 +163,7 @@ const ProductList = ({ productArray }) => {
                                     <MenuList>
                                       <MenuItem
                                         className="hover:bg-green-100"
-                                        onClick={() => handleClick()}
+                                        onClick={() => handleClick(item)}
                                       >
                                         Show Product Details
                                       </MenuItem>
@@ -195,7 +200,7 @@ const ProductList = ({ productArray }) => {
                     <DrawerCloseButton />
 
                     <DrawerBody>
-                      <ProductDetails />
+                      <ProductDetails product={singleProduct} />
                     </DrawerBody>
                   </DrawerContent>
                 </Drawer>

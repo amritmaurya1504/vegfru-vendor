@@ -1,9 +1,10 @@
 import React from "react";
 
-const ProductDetails = () => {
+const ProductDetails = ({ product }) => {
   const handleEditProduct = (e) => {
     e.preventDefault();
   };
+  console.log("From product Details component", product);
   return (
     <div>
       <div className="flex flex-col space-y-8 md:pl-10 md:pr-24">
@@ -17,20 +18,20 @@ const ProductDetails = () => {
         </div>
         <div className="flex flex-col">
           <img
-            src="https://res.cloudinary.com/amritrajmaurya/image/upload/v1683186003/veg3_cwi5wv.webp"
-            alt="onion"
+            src={`${product.productImage}`}
+            alt={`${product.productName}`}
             className="sm:h-[160px] md:w-[200px]  h-[80px] w-[100px]"
           />
 
           <h1 class="title-font sm:text-3xl text-2xl font-medium text-gray-900">
-            Onion
+            {product.productName}
           </h1>
 
-          <span class="tracking-widest sm:text-base text-sm title-font font-medium mb-4  text-gray-400">
-            VEGETABLE
+          <span class="tracking-widest sm:text-base text-sm title-font font-medium mb-4  uppercase text-gray-400">
+            {product.productCategory}
           </span>
           <span className="w-[80px] text-center rounded-full bg-green-100 px-2 sm:text-sm text-xs font-semibold leading-5 text-green-800">
-            Available
+            {product.status}
           </span>
         </div>
         {/* Form */}
@@ -48,7 +49,22 @@ const ProductDetails = () => {
                   id="text"
                   name="text"
                   type="text"
-                  value="20"
+                  value={product.productPrice}
+                  className="block w-full appearance-none outline-none px-4 py-4 placeholder-gray-300 shadow-sm sm:text-sm"
+                />
+              </div>
+              <div className="border-r border-l border-t border-b">
+                <p
+                  htmlFor=""
+                  className="px-4 pt-4 block text-xs font-medium text-gray-400"
+                >
+                  Edit Base Unit
+                </p>
+                <input
+                  id="text"
+                  name="text"
+                  type="text"
+                  value={product.productBaseUnit}
                   className="block w-full appearance-none outline-none px-4 py-4 placeholder-gray-300 shadow-sm sm:text-sm"
                 />
               </div>
@@ -73,6 +89,21 @@ const ProductDetails = () => {
                     gm
                   </option>
                 </select>
+              </div>
+              <div className="border-r border-l border-t border-b">
+                <p
+                  htmlFor=""
+                  className="px-4 pt-4 block text-xs font-medium text-gray-400"
+                >
+                  Update Stock
+                </p>
+                <input
+                  id="text"
+                  name="text"
+                  type="text"
+                  value={product.totalAvailable}
+                  className="block w-full appearance-none outline-none px-4 py-4 placeholder-gray-300 shadow-sm sm:text-sm"
+                />
               </div>
             </div>
 
