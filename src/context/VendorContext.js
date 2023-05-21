@@ -7,15 +7,15 @@ export const VendorContextProvider = ({ children }) => {
   const [loader, setLoader] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [stores, setStores] = useState();
-
-
+  const [imageLoader, setImageLoader] = useState(false);
 
   // upload images
   const uploadImage = (image) => {
-    console.log(image)
-    const filename = image.name
-    const ext = filename.split('.').pop();
-    if (ext === 'jpg' || ext === 'png' || ext === 'jpeg') {
+    setImageLoader(true);
+    console.log(image);
+    const filename = image.name;
+    const ext = filename.split(".").pop();
+    if (ext === "jpg" || ext === "png" || ext === "jpeg") {
       const data = new FormData();
       data.append("file", image);
       data.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_PRESET);
@@ -26,8 +26,8 @@ export const VendorContextProvider = ({ children }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setImageUrl(data.url.toString())
-
+          setImageUrl(data.url.toString());
+          setImageLoader(false);
         })
         .catch((err) => {
           toast.error(err, {
@@ -38,9 +38,10 @@ export const VendorContextProvider = ({ children }) => {
             pauseOnHover: false,
             draggable: true,
             progress: undefined,
-            theme: 'colored'
+            theme: "colored",
           });
-        })
+          setImageLoader(false);
+        });
     } else {
       toast.warning("Please select a valid image [Either JPEG or PNG]", {
         position: "top-center",
@@ -50,14 +51,25 @@ export const VendorContextProvider = ({ children }) => {
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: 'colored'
-      })
+        theme: "colored",
+      });
+      setImageLoader(false);
     }
-  }
+  };
 
   return (
     <VendorContext.Provider
-      value={{ userData, setUserData, loader, setLoader, imageUrl, uploadImage, setStores, stores }}
+      value={{
+        userData,
+        setUserData,
+        loader,
+        setLoader,
+        imageUrl,
+        uploadImage,
+        setStores,
+        stores,
+        imageLoader,
+      }}
     >
       {children}
     </VendorContext.Provider>

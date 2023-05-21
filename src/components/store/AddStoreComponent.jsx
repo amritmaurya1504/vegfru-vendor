@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import { Icon } from "leaflet";
 import axios from "axios";
 import { VendorContext } from "@/context/VendorContext";
-import { BeatLoader } from "react-spinners";
+import { BeatLoader, ClipLoader } from "react-spinners";
 
 const override = {
   display: "block",
@@ -16,7 +16,7 @@ const override = {
 const mapbox_url = `https://api.mapbox.com/styles/v1/${process.env.NEXT_PUBLIC_MAPBOX_USERNAME}/clgjqyhee007o01qt6l1veo00/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.NEXT_PUBLIC_MAPBOX_KEY}`;
 
 const AddAddress = ({ fetchStores }) => {
-  const { loader, setLoader, axiosConfig, imageUrl, uploadImage } =
+  const { loader, setLoader, axiosConfig, imageUrl, uploadImage, imageLoader } =
     useContext(VendorContext);
   const [position, setPosition] = useState([
     24.79039723056424, 78.53669117764389,
@@ -275,7 +275,11 @@ const AddAddress = ({ fetchStores }) => {
                   htmlFor="email"
                   className="px-4 pt-4 block text-xs font-medium text-gray-400"
                 >
-                  Upload store image
+                  {imageLoader ? (
+                    <ClipLoader color="#3675d6" size={15} />
+                  ) : (
+                    "Upload Store Image"
+                  )}
                 </p>
                 <input
                   onChange={(e) => uploadImage(e.target.files[0])}

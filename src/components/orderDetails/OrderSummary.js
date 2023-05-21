@@ -36,7 +36,7 @@ const OrderSummary = () => {
 
       <div className="mt-4 shadow-sm sm:mx-5 p-6 bg-gray-50 rounded-sm">
         <div className="">
-          <h2 className="text-xl font-semibold">3 items</h2>
+          <h2 className="text-xl font-semibold">3 item(s)</h2>
           <p className="font-extralight text-gray-400">order id: {orderId}</p>
         </div>
         <ul>

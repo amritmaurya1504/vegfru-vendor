@@ -46,7 +46,7 @@ const Sidebar = ({ children }) => {
                 <div
                   className="bg-gray-100 hover:bg-gray-200  text-gray-500 hover:text-gray-700 rounded-lg  p-1 flex justify-center items-center"
                   data-tooltip-id="customer"
-                  data-tooltip-content="Customer"
+                  data-tooltip-content="Customers"
                   data-tooltip-place="right"
                 >
                   <FiUsers size={24} />
@@ -68,7 +68,7 @@ const Sidebar = ({ children }) => {
                 <div
                   className="bg-gray-100 hover:bg-gray-200  text-gray-500 hover:text-gray-700 rounded-lg  p-1 flex justify-center items-center"
                   data-tooltip-id="add store"
-                  data-tooltip-content="Add Store"
+                  data-tooltip-content="Stores"
                   data-tooltip-place="right"
                 >
                   <BiStoreAlt size={24} />

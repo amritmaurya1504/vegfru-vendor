@@ -7,6 +7,7 @@ import { IoMdAdd } from "react-icons/io";
 import { BiEdit } from "react-icons/bi";
 import AddProduct from "@/components/store/AddProduct";
 import ProductList from "@/components/store/ProductList";
+import axios from "axios";
 import {
   Drawer,
   DrawerBody,
@@ -21,7 +22,7 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
+
 import { BeatLoader, HashLoader } from "react-spinners";
 import { Tooltip } from "react-tooltip";
 
@@ -32,6 +33,9 @@ const StoreDetails = () => {
   const router = useRouter();
   const storeId = router.query.storeId;
   const [loaderTwo, setLoaderTwo] = useState(false);
+
+  // store the response of fetch Product in productArray
+  const [productArray, setProductArray] = useState([]);
 
   const getStoreById = async () => {
     setLoader(true);
@@ -55,8 +59,31 @@ const StoreDetails = () => {
     setLoader(false);
   };
 
+  // ---------- fetching the products ------------
+
+  const fetchProducts = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
+        },
+      };
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/vendor/product/get-product/${storeId}`,
+        config
+      );
+      console.log(data);
+
+      setProductArray(data.getProduct);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getStoreById();
+    fetchProducts();
   }, []);
 
   const handleDelete = async (_id) => {
@@ -134,7 +161,7 @@ const StoreDetails = () => {
                       </span>
                       {singleStore.landmark}
                     </p>
-                    <p class="mb-8 leading-relaxed">
+                    <p class="mb-8 leading-relaxed sm:p-0 px-6">
                       <div className="flex gap-1 items-center">
                         <span className="leading-relaxed font-semibold">
                           Status :{" "}
@@ -196,7 +223,7 @@ const StoreDetails = () => {
               </div>
             </section>
             {/* Product lIST */}
-            <ProductList />
+            <ProductList productArray={productArray} />
           </div>
         )}
       </Sidebar>
@@ -207,7 +234,7 @@ const StoreDetails = () => {
           <DrawerCloseButton />
 
           <DrawerBody>
-            <AddProduct />
+            <AddProduct fetchProducts={fetchProducts} />
           </DrawerBody>
         </DrawerContent>
       </Drawer>
