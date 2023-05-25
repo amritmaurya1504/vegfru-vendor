@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import axios from "axios";
 
 export const VendorContext = createContext();
 
@@ -8,6 +9,7 @@ export const VendorContextProvider = ({ children }) => {
   const [imageUrl, setImageUrl] = useState();
   const [stores, setStores] = useState();
   const [imageLoader, setImageLoader] = useState(false);
+  const [orders, setOrders] = useState([]);
 
   // upload images
   const uploadImage = (image) => {
@@ -57,6 +59,30 @@ export const VendorContextProvider = ({ children }) => {
     }
   };
 
+  // fetch orders
+
+  const fetchOrder = async () => {
+    try {
+      setLoader(true);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
+        },
+      };
+
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/order/vendor/get-order`,
+        config
+      );
+      console.log(data);
+      setOrders(data.orderData);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoader(false);
+  };
+
   return (
     <VendorContext.Provider
       value={{
@@ -69,6 +95,8 @@ export const VendorContextProvider = ({ children }) => {
         setStores,
         stores,
         imageLoader,
+        fetchOrder,
+        orders,
       }}
     >
       {children}

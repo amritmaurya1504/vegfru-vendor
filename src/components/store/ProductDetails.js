@@ -79,13 +79,14 @@ const ProductDetails = ({ product }) => {
                 <select
                   id="unit"
                   name="unit"
+                  value={product.productUnit}
                   class="outline-none mt-2 block w-full py-2 px-4 rounde text-gray-400"
                 >
                   <option value="">--Please choose an option--</option>
-                  <option value="kgram" class="py-2 px-4" selected>
+                  <option value="kg" class="py-2 px-4" selected>
                     kg
                   </option>
-                  <option value="gram" class="py-2 px-4">
+                  <option value="gm" class="py-2 px-4">
                     gm
                   </option>
                 </select>

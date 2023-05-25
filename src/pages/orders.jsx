@@ -5,12 +5,16 @@ import { data } from "../data/data";
 import Sidebar from "../components/menubar/Sidebar";
 import { VendorContext } from "@/context/VendorContext";
 import { useRouter } from "next/router";
+import { HashLoader } from "react-spinners";
+import { format } from "date-fns";
 
 const orders = () => {
-  const { userData } = useContext(VendorContext);
+  const { userData, fetchOrder, orders, loader } = useContext(VendorContext);
   const router = useRouter();
+
   useEffect(() => {
     document.title = "Vendor | orders";
+    fetchOrder();
   }, []);
   return (
     <Sidebar>
@@ -25,62 +29,78 @@ const orders = () => {
             </span>
           </div>
         </div>
-        <div className="p-4">
-          <div className="w-full m-auto p-4 border rounded-lg bg-white overflow-y-auto">
-            <div className="my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 justify-between items-center cursor-pointer">
-              <span className="text-lg text-gray-800 font-semibold">Order</span>
-              <span className="sm:text-left text-right text-lg text-gray-800 font-semibold">
-                Status
-              </span>
-              <span className="hidden md:grid text-lg text-gray-800 font-semibold">
-                Last Order
-              </span>
-              <span className="hidden sm:grid text-lg text-gray-800 font-semibold">
-                Method
-              </span>
-            </div>
-            <ul>
-              {data.map((item, id) => (
-                <li
-                  key={id}
-                  onClick={() => router.push(`/order-details/${item.id}`)}
-                  className="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer"
-                >
-                  <div className="flex items-center">
-                    <div className="text-green-500 bg-green-100 rounded-lg p-3">
-                      <BiShoppingBag />
-                    </div>
-                    <div className="pl-4">
-                      <p className="text-gray-800 font-bold">
-                        ${item.total.toLocaleString()}
-                      </p>
-                      <p className="text-gray-800 text-sm">{item.name.first}</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-600 sm:text-left text-right">
-                    <span
-                      className={
-                        item.status == "Processing"
-                          ? "bg-blue-200 p-2 rounded-lg"
-                          : item.status == "Completed"
-                          ? "bg-green-200 p-2 rounded-lg"
-                          : "bg-yellow-200 p-2 rounded-lg"
-                      }
-                    >
-                      {item.status}
-                    </span>
-                  </p>
-                  <p className="hidden md:grid">{item.date}</p>
 
-                  <div className="sm:flex hidden justify-between items-center">
-                    <p className="">{item.method}</p>
-                    <BsThreeDotsVertical />
-                  </div>
-                </li>
-              ))}
-            </ul>
+        {loader ? (
+          <div className="flex h-screen items-center justify-center mt-4">
+            <HashLoader color="#22c55e" />
           </div>
-        </div>
+        ) : (
+          <div className="p-4">
+            <div className="w-full m-auto p-4 border rounded-lg bg-white overflow-y-auto">
+              <div className="my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 justify-between items-center cursor-pointer">
+                <span className="text-lg text-gray-800 font-semibold">
+                  Order
+                </span>
+                <span className="sm:text-left text-right text-lg text-gray-800 font-semibold">
+                  Status
+                </span>
+                <span className="hidden md:grid text-lg text-gray-800 font-semibold">
+                  Last Order
+                </span>
+                <span className="hidden sm:grid text-lg text-gray-800 font-semibold">
+                  Store
+                </span>
+              </div>
+              <ul>
+                {orders.map((item, id) => (
+                  <li
+                    key={item._id}
+                    onClick={() => router.push(`/order-details/${item._id}`)}
+                    className="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer"
+                  >
+                    <div className="flex items-center">
+                      <div className="text-green-500 bg-green-100 rounded-lg p-3">
+                        <BiShoppingBag />
+                      </div>
+                      <div className="pl-4">
+                        <p className="text-gray-800 font-bold">
+                          &#8377;{item.billDetails.totalBill}
+                        </p>
+                        <p className="text-gray-800 text-sm">
+                          {item.customerId.name}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 sm:text-left text-right">
+                      <span
+                        className={
+                          item.orderStatus == "Processing"
+                            ? "bg-blue-200 p-2 rounded-lg"
+                            : item.status == "Delivered"
+                            ? "bg-green-200 p-2 rounded-lg"
+                            : "bg-yellow-200 p-2 rounded-lg"
+                        }
+                      >
+                        {item.orderStatus}
+                      </span>
+                    </p>
+                    <p className="hidden md:grid">
+                      {format(
+                        new Date(item.orderDate),
+                        "eee, dd MMM yyyy h:mm a"
+                      )}
+                    </p>
+
+                    <div className="sm:flex hidden justify-between items-center">
+                      <p className="">{item.storeId.storeName}</p>
+                      <BsThreeDotsVertical />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </Sidebar>
   );
