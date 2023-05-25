@@ -6,13 +6,40 @@ import { Badge } from "@chakra-ui/react";
 import { BsArrowBarRight } from "react-icons/bs";
 import DeliveryDetails from "@/components/orderDetails/DeliveryDetails";
 import OrderSummary from "@/components/orderDetails/OrderSummary";
+import axios from "axios";
 const orderDetails = () => {
   const { userData } = useContext(VendorContext);
-  useEffect(() => {
-    document.title = "Vendor | order-details";
-  }, []);
+  // console.log(orderId);
   const router = useRouter();
   const orderId = router.query.orderId;
+
+  //------------ get order details start ------------
+  // const fetchOrderDetails = async () => {
+
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         "Content-type": "application/json",
+  //         Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
+  //       },
+  //     };
+  //     console.log("Call ke andar", orderId);
+
+  //     const { data } = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/order/vendor/get-order/${router.query.orderId}`,
+  //       config
+  //     );
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  useEffect(() => {
+    document.title = "Vendor | order-details";
+    // fetchOrderDetails();
+  }, []);
+
   return (
     <Sidebar>
       <div className="flex justify-between px-4 pt-4 mb-2">
@@ -22,7 +49,7 @@ const orderDetails = () => {
           </p>{" "}
           <BsArrowBarRight />
           <span className="text-gray-400 text-xs sm:text-sm tracking-tighter font-extralight">
-            Order-Id : #{orderId}
+            Order-Id : adsdsd
           </span>
         </h2>
         <div className="flex justify-center items-center mr-2">

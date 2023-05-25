@@ -52,51 +52,53 @@ const orders = () => {
                 </span>
               </div>
               <ul>
-                {orders.map((item, id) => (
-                  <li
-                    key={item._id}
-                    onClick={() => router.push(`/order-details/${item._id}`)}
-                    className="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer"
-                  >
-                    <div className="flex items-center">
-                      <div className="text-green-500 bg-green-100 rounded-lg p-3">
-                        <BiShoppingBag />
+                {orders
+                  .map((item, id) => (
+                    <li
+                      key={item._id}
+                      onClick={() => router.push(`/order-details/${item._id}`)}
+                      className="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer"
+                    >
+                      <div className="flex items-center">
+                        <div className="text-green-500 bg-green-100 rounded-lg p-3">
+                          <BiShoppingBag />
+                        </div>
+                        <div className="pl-4">
+                          <p className="text-gray-800 font-bold">
+                            &#8377;{item.billDetails.totalBill}
+                          </p>
+                          <p className="text-gray-800 text-sm">
+                            {item.customerId.name}
+                          </p>
+                        </div>
                       </div>
-                      <div className="pl-4">
-                        <p className="text-gray-800 font-bold">
-                          &#8377;{item.billDetails.totalBill}
-                        </p>
-                        <p className="text-gray-800 text-sm">
-                          {item.customerId.name}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 sm:text-left text-right">
-                      <span
-                        className={
-                          item.orderStatus == "Processing"
-                            ? "bg-blue-200 p-2 rounded-lg"
-                            : item.status == "Delivered"
-                            ? "bg-green-200 p-2 rounded-lg"
-                            : "bg-yellow-200 p-2 rounded-lg"
-                        }
-                      >
-                        {item.orderStatus}
-                      </span>
-                    </p>
-                    <p className="hidden md:grid">
-                      {format(
-                        new Date(item.orderDate),
-                        "eee, dd MMM yyyy h:mm a"
-                      )}
-                    </p>
+                      <p className="text-gray-600 sm:text-left text-right">
+                        <span
+                          className={
+                            item.orderStatus == "Processing"
+                              ? "bg-blue-200 p-2 rounded-lg"
+                              : item.status == "Delivered"
+                              ? "bg-green-200 p-2 rounded-lg"
+                              : "bg-yellow-200 p-2 rounded-lg"
+                          }
+                        >
+                          {item.orderStatus}
+                        </span>
+                      </p>
+                      <p className="hidden md:grid">
+                        {format(
+                          new Date(item.orderDate),
+                          "eee, dd MMM yyyy h:mm a"
+                        )}
+                      </p>
 
-                    <div className="sm:flex hidden justify-between items-center">
-                      <p className="">{item.storeId.storeName}</p>
-                      <BsThreeDotsVertical />
-                    </div>
-                  </li>
-                ))}
+                      <div className="sm:flex hidden justify-between items-center">
+                        <p className="">{item.storeId.storeName}</p>
+                        <BsThreeDotsVertical />
+                      </div>
+                    </li>
+                  ))
+                  .reverse()}
               </ul>
             </div>
           </div>
