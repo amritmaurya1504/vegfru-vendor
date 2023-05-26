@@ -3,7 +3,7 @@ import Sidebar from "../components/menubar/Sidebar";
 import { BsFillPersonFill, BsThreeDotsVertical } from "react-icons/bs";
 import { data } from "../data/data";
 import { VendorContext } from "@/context/VendorContext";
-import { HashLoader } from "react-spinners";
+import SkeletonLoader from "@/components/SkeletonLoader";
 import { formatDistanceToNow } from "date-fns";
 import { sortByField } from "@/logics/logic";
 
@@ -31,8 +31,8 @@ const customers = () => {
         </div>
 
         {loader ? (
-          <div className="flex h-screen items-center justify-center mt-4">
-            <HashLoader color="#22c55e" />
+          <div className="p-8">
+            <SkeletonLoader />
           </div>
         ) : (
           <div className="p-4">

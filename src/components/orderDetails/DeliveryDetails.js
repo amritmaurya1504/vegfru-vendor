@@ -1,8 +1,40 @@
 import React, { useState } from "react";
 import { GrLocationPin, GrLocation } from "react-icons/gr";
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
-const DeliveryDetails = () => {
-  const [value, setValue] = useState("1");
+import { getValue } from "@/logics/logic";
+import axios from "axios";
+import StatusSkeleton from "../StatusSkeleton"
+
+const DeliveryDetails = ({ orders, fetchOrderDetails }) => {
+  const [loader, setLoader] = useState(false);
+  const statusArr = ["Accepted", "Processing", "Out for delivery", "Delivered"];
+
+  const handleStatusChange = async (value) => {
+    const status = statusArr[value - 1];
+    console.log(status);
+    setLoader(true)
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
+        },
+      };
+      const { data } = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/order/change-status/${orders._id}`, { orderStatus: status },
+        config
+      );
+      if (data.success) {
+        fetchOrderDetails()
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoader(false);
+
+  }
+
+
   return (
     <div>
       <div className="flex flex-col items-center">
@@ -12,13 +44,12 @@ const DeliveryDetails = () => {
               <GrLocationPin size={36} />
               <div>
                 <h1 className="title-font text-lg font-semibold text-gray-900">
-                  Ramesh Store I
+                  {orders?.storeId.storeName}
                 </h1>
                 <p class="leading-relaxed">
-                  Jagatipota, Kolkata 700099, West Bengal Jagatipota Kolkata
-                  India
+                  {orders?.storeId.storeAddress}
                 </p>
-                <small>Landmark : DMG Office</small>
+                <small>Landmark : {orders?.storeId.landmark}</small>
               </div>
             </div>
           </div>
@@ -34,13 +65,12 @@ const DeliveryDetails = () => {
               <GrLocation size={40} className="mb-2" />
               <div>
                 <h1 className="title-font text-lg font-semibold text-gray-900">
-                  Ms. Sampriti Mukherjee
+                  {orders?.customerId.name}
                 </h1>
                 <p class="leading-relaxed">
-                  House no. 163,MAdurdaha, Hussainpur Kolkata 700107, West
-                  Bengal India
+                  {orders?.toAddress.address + " " + orders?.toAddress.place}
                 </p>
-                <small>Landmark : Sanjeevni Medicals</small>
+                <small>Landmark : {orders?.toAddress.landmark}</small>
               </div>
             </div>
           </div>
@@ -50,22 +80,26 @@ const DeliveryDetails = () => {
       {/* status handling  */}
 
       <div className="sm:mx-5 border-t-2">
-        <h3 className="text-xl font-semibold mb-4 mt-8">Manage Order Status</h3>
-        <RadioGroup onChange={setValue} value={value}>
-          <Stack>
-            <Radio size="md" name="1" value="1" colorScheme="green">
-              Accepted
-            </Radio>
-            <Radio size="md" name="2" value="2" colorScheme="green">
-              Processing
-            </Radio>
-            <Radio size="md" name="3" value="3" colorScheme="green">
-              Out for Delivery
-            </Radio>
-            <Radio size="md" name="4" value="4" colorScheme="green">
-              Delivered
-            </Radio>
-          </Stack>
+        <h3 className="text-xl font-semibold mb-4 mt-8">{loader ? "Updating" : "Manage"} Order Status</h3>
+        <RadioGroup onChange={handleStatusChange} value={getValue(orders?.orderStatus)}>
+          {loader ? (<StatusSkeleton />)
+            : (
+              <Stack>
+                <Radio size="md" name="1" value="1" colorScheme="green" >
+                  Accepted
+                </Radio>
+                <Radio size="md" name="2" value="2" colorScheme="green" >
+                  Processing
+                </Radio>
+                <Radio size="md" name="3" value="3" colorScheme="green" >
+                  Out for Delivery
+                </Radio>
+                <Radio size="md" name="4" value="4" colorScheme="green" >
+                  Delivered
+                </Radio>
+              </Stack>
+            )
+          }
         </RadioGroup>
       </div>
     </div>

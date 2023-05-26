@@ -22,7 +22,7 @@ import { people } from "../dummy";
 
 const ProductList = ({ productArray }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(productArray);
+  // console.log(productArray);
 
   // state for handling product details
 

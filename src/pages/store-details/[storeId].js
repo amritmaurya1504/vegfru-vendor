@@ -51,7 +51,7 @@ const StoreDetails = () => {
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/vendor/get-store/${storeId}`,
         axiosConfig
       );
-      console.log(data);
+      // console.log(data);
       setSingleStore(data.store);
     } catch (error) {
       toast.info(error.response?.data.message);

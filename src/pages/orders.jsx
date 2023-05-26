@@ -5,7 +5,7 @@ import { data } from "../data/data";
 import Sidebar from "../components/menubar/Sidebar";
 import { VendorContext } from "@/context/VendorContext";
 import { useRouter } from "next/router";
-import { HashLoader } from "react-spinners";
+import SkeletonLoader from "@/components/SkeletonLoader";
 import { format } from "date-fns";
 
 const orders = () => {
@@ -31,8 +31,8 @@ const orders = () => {
         </div>
 
         {loader ? (
-          <div className="flex h-screen items-center justify-center mt-4">
-            <HashLoader color="#22c55e" />
+          <div className="p-8">
+            <SkeletonLoader />
           </div>
         ) : (
           <div className="p-4">
@@ -53,7 +53,7 @@ const orders = () => {
               </div>
               <ul>
                 {orders
-                  .map((item, id) => (
+                  .map((item) => (
                     <li
                       key={item._id}
                       onClick={() => router.push(`/order-details/${item._id}`)}

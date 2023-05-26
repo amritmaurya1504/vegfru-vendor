@@ -66,3 +66,11 @@ export const CalculateTotalCustomers = () => {
 
   return uniqueCustomers.length;
 };
+
+
+export const getValue = (status) => {
+  if(status === "Accepted") return "1";
+  else if (status === "Processing") return "2";
+  else if (status === "Out for delivery") return "3";
+  else if (status === "Delivered") return "4";
+}

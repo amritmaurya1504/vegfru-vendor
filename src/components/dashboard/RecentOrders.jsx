@@ -5,6 +5,7 @@ import { BiShoppingBag } from "react-icons/bi";
 import { VendorContext } from "@/context/VendorContext";
 import { sortByField } from "@/logics/logic";
 import { FadeLoader } from "react-spinners";
+import SkeletonLoader from "../SkeletonLoader";
 const RecentOrders = () => {
   const { fetchOrder, orders, loader } = useContext(VendorContext);
   useEffect(() => {
@@ -17,9 +18,7 @@ const RecentOrders = () => {
       <h1 className="text-gray-800 font-semibold">Recent Orders</h1>
 
       {loader ? (
-        <div className="w-full col-span-1 relative lg:h-[70vh] h-[50vh] m-auto flex justify-center items-center">
-          <FadeLoader color="#22c55e" />
-        </div>
+        <SkeletonLoader />
       ) : (
         <ul>
           {sortedOrders.map((order, id) => (
