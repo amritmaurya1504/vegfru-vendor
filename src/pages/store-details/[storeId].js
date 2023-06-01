@@ -87,6 +87,7 @@ const StoreDetails = () => {
     fetchProducts();
   }, []);
 
+  // delete the store
   const handleDelete = async (_id) => {
     setLoaderTwo(true);
     try {
@@ -109,6 +110,27 @@ const StoreDetails = () => {
 
   const handleClick = () => {
     onOpen();
+  };
+
+  // change store status
+  const handleStaus = async (_id) => {
+    try {
+      console.log(JSON.parse(localStorage.getItem("token")));
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
+        },
+      };
+
+      const { data } = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/vendor/change-status/${_id}`,
+        config
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -181,7 +203,10 @@ const StoreDetails = () => {
                           data-tooltip-content="Change Status"
                           data-tooltip-place="top"
                         >
-                          <BiEdit className="ml-2 text-indigo-500 cursor-pointer" />
+                          <BiEdit
+                            className="ml-2 text-indigo-500 cursor-pointer"
+                            onClick={() => handleStaus(singleStore._id)}
+                          />
                           <Tooltip id="status" />
                         </span>
                       </div>
