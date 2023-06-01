@@ -14,6 +14,7 @@ const orders = () => {
 
   useEffect(() => {
     document.title = "Vendor | orders";
+
     fetchOrder();
   }, []);
   return (
