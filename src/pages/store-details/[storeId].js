@@ -115,8 +115,7 @@ const StoreDetails = () => {
   // change store status
   const handleStaus = async (_id) => {
     try {
-      console.log(JSON.parse(localStorage.getItem("token")));
-      const config = {
+      const axiosConfig = {
         headers: {
           "Content-type": "application/json",
           Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
@@ -124,10 +123,12 @@ const StoreDetails = () => {
       };
 
       const { data } = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/vendor/change-status/${_id}`,
-        config
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/vendor/change-status/${storeId}`, { storeId: storeId },
+        axiosConfig
       );
-      console.log(data);
+      if(data.success){
+        getStoreById()
+      }
     } catch (error) {
       console.log(error);
     }
@@ -190,11 +191,10 @@ const StoreDetails = () => {
                           Status :{" "}
                         </span>
                         <span
-                          className={`font-semibold ${
-                            singleStore.status === "Active"
-                              ? "text-green-500"
-                              : "text-orange-500"
-                          }`}
+                          className={`font-semibold ${singleStore.status === "Active"
+                            ? "text-green-500"
+                            : "text-orange-500"
+                            }`}
                         >
                           {singleStore.status}
                         </span>
