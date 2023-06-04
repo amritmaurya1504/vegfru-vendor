@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { Tooltip } from "react-tooltip";
-import { people } from "../dummy";
+import axios from "axios";
 
 const ProductList = ({ productArray }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -30,6 +30,29 @@ const ProductList = ({ productArray }) => {
   const handleClick = (item) => {
     setSingleProduct(item);
     onOpen();
+  };
+
+  // change product status
+  const handleProductStatus = async (item) => {
+    try {
+      const axiosConfig = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
+        },
+      };
+      const { data } = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/vendor/change-status/${item._id}`,
+        { productId: item._id },
+        { status: item.status },
+        axiosConfig
+      );
+      if (data.success) {
+        console.log("Status changed successfully!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -167,7 +190,12 @@ const ProductList = ({ productArray }) => {
                                       >
                                         Show Product Details
                                       </MenuItem>
-                                      <MenuItem className="hover:bg-green-100">
+                                      <MenuItem
+                                        className="hover:bg-green-100"
+                                        onClick={() =>
+                                          handleProductStatus(item)
+                                        }
+                                      >
                                         Change Status
                                       </MenuItem>
                                       <MenuItem className="hover:bg-green-100">
