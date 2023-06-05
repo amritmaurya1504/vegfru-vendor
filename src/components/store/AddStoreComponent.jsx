@@ -49,7 +49,7 @@ const AddAddress = ({ fetchStores }) => {
   const getLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setLocation([position.coords.latitude, position.coords.longitude]);
+        setLocation([22.491719342582865, 88.39950042285479]);
       },
       (error) => {
         console.log(error);

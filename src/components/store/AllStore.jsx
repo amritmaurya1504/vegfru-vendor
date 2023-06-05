@@ -18,7 +18,7 @@ const AllStore = () => {
             </div>
           ) :
             <>
-              {stores.length != 0 ? (
+              {stores?.length != 0 ? (
                 stores.map((curr) => {
                   return (
                     <>
