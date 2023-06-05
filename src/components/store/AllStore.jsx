@@ -19,7 +19,7 @@ const AllStore = () => {
           ) :
             <>
               {stores?.length != 0 ? (
-                stores.map((curr) => {
+                stores?.map((curr) => {
                   return (
                     <>
                       <div key={curr._id} class="p-4 md:w-1/3">
