@@ -13,7 +13,7 @@ const customers = () => {
 
   useEffect(() => {
     document.title = "Vendor | Customers";
-    fetchOrder();
+    if(orders.length === 0) fetchOrder();
   }, []);
 
   return (
@@ -55,7 +55,7 @@ const customers = () => {
                 </span>
               </div>
               <ul>
-                {sortedOrders.map((item, id) => (
+                {sortedOrders.length != 0 ? sortedOrders.map((item, id) => (
                   <li
                     key={item._id}
                     className="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer"
@@ -80,7 +80,11 @@ const customers = () => {
                       <BsThreeDotsVertical />
                     </div>
                   </li>
-                ))}
+                )) : (
+                  <>
+                    <p className="text-center mt-4" >No any customers!</p>
+                  </>
+                )}
               </ul>
             </div>
           </div>

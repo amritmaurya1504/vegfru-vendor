@@ -14,8 +14,9 @@ const orders = () => {
 
   useEffect(() => {
     document.title = "Vendor | orders";
-
-    fetchOrder();
+    if (orders.length === 0) {
+      fetchOrder();
+    }
   }, []);
   return (
     <Sidebar>
@@ -53,7 +54,7 @@ const orders = () => {
                 </span>
               </div>
               <ul>
-                {orders
+                {orders.length != 0 ? orders
                   .map((item) => (
                     <li
                       key={item._id}
@@ -79,8 +80,8 @@ const orders = () => {
                             item.orderStatus == "Processing"
                               ? "bg-blue-200 p-2 rounded-lg"
                               : item.status == "Delivered"
-                              ? "bg-green-200 p-2 rounded-lg"
-                              : "bg-yellow-200 p-2 rounded-lg"
+                                ? "bg-green-200 p-2 rounded-lg"
+                                : "bg-yellow-200 p-2 rounded-lg"
                           }
                         >
                           {item.orderStatus}
@@ -99,7 +100,11 @@ const orders = () => {
                       </div>
                     </li>
                   ))
-                  .reverse()}
+                  .reverse() : (
+                  <>
+                    <p className="text-center mt-4" >No any active orders!</p>
+                  </>
+                )}
               </ul>
             </div>
           </div>

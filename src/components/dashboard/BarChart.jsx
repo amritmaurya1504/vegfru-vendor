@@ -31,7 +31,7 @@ const BarChart = () => {
       datasets: [
         {
           label: "Sales $",
-          data: [18127, 22201, 19490, 17938, 24182, 17842, 22475],
+          data: [1200, 22201, 19490, 17938, 24182, 17842, 22475],
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgb(180, 255, 161)",
         },

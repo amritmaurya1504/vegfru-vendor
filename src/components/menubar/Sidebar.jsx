@@ -17,6 +17,7 @@ const Sidebar = ({ children }) => {
   const btnRef = React.useRef();
   const router = useRouter();
   const handleLogout = () => {
+    
     router.push("/");
   };
   return (

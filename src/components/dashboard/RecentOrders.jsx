@@ -9,7 +9,7 @@ import SkeletonLoader from "../SkeletonLoader";
 const RecentOrders = () => {
   const { fetchOrder, orders, loader } = useContext(VendorContext);
   useEffect(() => {
-    fetchOrder();
+    if(orders.length === 0) fetchOrder();
   }, []);
   const sortedOrders = sortByField(orders, "orderDate");
   // console.log(sortedOrders);
@@ -21,7 +21,7 @@ const RecentOrders = () => {
         <SkeletonLoader />
       ) : (
         <ul>
-          {sortedOrders.map((order, id) => (
+          {sortedOrders.length != 0 ? sortedOrders.map((order, id) => (
             <li
               key={order._id}
               className="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
@@ -42,7 +42,11 @@ const RecentOrders = () => {
                 })}
               </p>
             </li>
-          ))}
+          )) : (
+            <>
+              <p className="text-center mt-28">You don't have any recent order!</p>
+            </>
+          )}
         </ul>
       )}
     </div>
