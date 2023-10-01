@@ -6,7 +6,7 @@ import { VendorContext } from "@/context/VendorContext";
 import SkeletonLoader from "@/components/SkeletonLoader";
 import { formatDistanceToNow } from "date-fns";
 import { sortByField } from "@/logics/logic";
-
+import moment from "moment";
 const customers = () => {
   const { userData, orders, fetchOrder, loader } = useContext(VendorContext);
   const sortedOrders = sortByField(orders, "orderDate");
@@ -70,9 +70,9 @@ const customers = () => {
                       {item.itemsOrdered.length}
                     </p>
                     <p className="hidden md:grid">
-                      {formatDistanceToNow(new Date(item.orderDate), {
-                        addSuffix: true,
-                      })}
+                    {moment(item.orderDate).utc().fromNow() == "a day ago"
+                  ? "yesterday"
+                  : moment(item.orderDate).utc().fromNow()}
                     </p>
                     <p className="hidden md:grid">{item.storeId.storeName}</p>
                     <div className="flex justify-between items-center">

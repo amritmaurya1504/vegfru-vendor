@@ -53,7 +53,7 @@ const StoreDetails = () => {
         axiosConfig
       );
       // console.log(data);
-      setSingleStore(data.store);
+      setSingleStore(data.stores);
     } catch (error) {
       toast.info(error.response?.data.message);
     }

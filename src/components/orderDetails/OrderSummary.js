@@ -25,7 +25,7 @@ const OrderSummary = ({ orders }) => {
         <h3 className="font-semibold">Payment Mode</h3>
         <div className="flex items-center justify-between mt-2">
           <p className="text-xs font-light uppercase text-gray-400">
-            Paid online
+            {orders?.paymentDetails.payment_method_types}
           </p>
           <p className="text-xs  font-extralight text-gray-400">
             Payment-id: {orders?.paymentDetails.paymentId}

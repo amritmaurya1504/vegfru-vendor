@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { formatDistanceToNow } from "date-fns";
-
+import moment from "moment"
 import { BiShoppingBag } from "react-icons/bi";
 import { VendorContext } from "@/context/VendorContext";
 import { sortByField } from "@/logics/logic";
@@ -9,7 +9,7 @@ import SkeletonLoader from "../SkeletonLoader";
 const RecentOrders = () => {
   const { fetchOrder, orders, loader } = useContext(VendorContext);
   useEffect(() => {
-    if(orders.length === 0) fetchOrder();
+    if (orders.length === 0) fetchOrder();
   }, []);
   const sortedOrders = sortByField(orders, "orderDate");
   // console.log(sortedOrders);
@@ -37,9 +37,9 @@ const RecentOrders = () => {
               </div>
               <p className="lg:flex md:hidden absolute right-6 text-sm font-light">
                 {/* calculate the relative distance oof the time  */}
-                {formatDistanceToNow(new Date(order.orderDate), {
-                  addSuffix: true,
-                })}
+                {moment(order.orderDate).utc().fromNow() == "a day ago"
+                  ? "yesterday"
+                  : moment(order.orderDate).utc().fromNow()}
               </p>
             </li>
           )) : (

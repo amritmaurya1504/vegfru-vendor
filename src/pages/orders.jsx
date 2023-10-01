@@ -6,7 +6,7 @@ import Sidebar from "../components/menubar/Sidebar";
 import { VendorContext } from "@/context/VendorContext";
 import { useRouter } from "next/router";
 import SkeletonLoader from "@/components/SkeletonLoader";
-import { format } from "date-fns";
+import moment from "moment";
 
 const orders = () => {
   const { userData, fetchOrder, orders, loader } = useContext(VendorContext);
@@ -88,10 +88,7 @@ const orders = () => {
                         </span>
                       </p>
                       <p className="hidden md:grid">
-                        {format(
-                          new Date(item.orderDate),
-                          "eee, dd MMM yyyy h:mm a"
-                        )}
+                        {moment(item.orderDate, "ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (z)").format("DD/MM/YY HH:mm:ss")}
                       </p>
 
                       <div className="sm:flex hidden justify-between items-center">
